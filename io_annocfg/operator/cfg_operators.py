@@ -8,8 +8,6 @@ from bpy_extras.object_utils import AddObjectHelper
 from ..anno_objects import MainFile, Model, Propcontainer, Prop, Cloth, Decal, SubFile, ClothMaterial
 from ..material import Material
 from ..shaders.default_shader import AnnoDefaultShader
-from ..shaders.a8_default_shader import A8_DefaultShader
-
 from ..shaders.prop_decal_shader import DecalPropShader
 from ..shaders.prop_decaldetail_shader import DecalDetailPropShader
 from ..shaders.prop_pbr_shader import SimplePBRPropShader
@@ -25,9 +23,9 @@ from ..shaders.water_shader import LiquidShader
 from ..shaders.glass_shader import GlassShader
 
 class generic_cfg_object(Operator, AddObjectHelper):
-    bl_idname = "mesh.add_anno_117_cfgobj"
+    bl_idname = "mesh.add_anno_cfgobj"
     bl_options = {'REGISTER', 'UNDO'}
-    bl_label = "Add Anno 117 Object"
+    bl_label = "Add Anno Object"
 
     def __init__(self):
         self.filename = ""
@@ -45,49 +43,49 @@ class generic_cfg_object(Operator, AddObjectHelper):
         return {'FINISHED'}
 
 class cfg_mainfile(generic_cfg_object):
-    bl_idname = "mesh.add_anno_117_mainfile"
+    bl_idname = "mesh.add_anno_mainfile"
     def __init__(self):
         super().__init__()
         self.TargetObject = MainFile()
 
 class cfg_model(generic_cfg_object):
-    bl_idname = "mesh.add_anno_117_model"
+    bl_idname = "mesh.add_anno_model"
     def __init__(self):
         super().__init__()
         self.TargetObject = Model()
 
 class cfg_propcontainer(generic_cfg_object):
-    bl_idname = "mesh.add_anno_117_propcontainer"
+    bl_idname = "mesh.add_anno_propcontainer"
     def __init__(self):
         super().__init__()
         self.TargetObject = Propcontainer()
 
 class cfg_prop(generic_cfg_object):
-    bl_idname = "mesh.add_anno_117_prop"
+    bl_idname = "mesh.add_anno_prop"
     def __init__(self):
         super().__init__()
         self.TargetObject = Prop()
 
 class cfg_cloth(generic_cfg_object):
-    bl_idname = "mesh.add_anno_117_cloth"
+    bl_idname = "mesh.add_anno_cloth"
     def __init__(self):
         super().__init__()
         self.TargetObject = Cloth()
 
 class cfg_decal(generic_cfg_object):
-    bl_idname = "mesh.add_anno_117_decal"
+    bl_idname = "mesh.add_anno_decal"
     def __init__(self):
         super().__init__()
         self.TargetObject = Decal()
 
 class cfg_subfile(generic_cfg_object):
-    bl_idname = "mesh.add_anno_117_subfile"
+    bl_idname = "mesh.add_anno_subfile"
     def __init__(self):
         super().__init__()
         self.TargetObject = SubFile()
 
 class cfg_menu(bpy.types.Menu):
-    bl_idname="add.anno_objects_117"
+    bl_idname="add.anno_objects"
     bl_label="Anno Objects"
 
     def draw(self, context):
@@ -95,32 +93,32 @@ class cfg_menu(bpy.types.Menu):
 
         layout.operator(
             cfg_mainfile.bl_idname,
-            text="Empty MainFile (117)",
+            text="Empty MainFile",
             icon='FILE_BLANK'
         )
         layout.operator(
             cfg_subfile.bl_idname,
-            text="Empty SubFile (117)",
+            text="Empty SubFile",
             icon='APPEND_BLEND'
         )
         layout.operator(
             cfg_model.bl_idname,
-            text="Empty Model (117)",
+            text="Empty Model",
             icon='MESH_CUBE'
         )
         layout.operator(
             cfg_propcontainer.bl_idname,
-            text="Empty Propcontainer (117)",
+            text="Empty Propcontainer",
             icon='FILE_VOLUME'
         )
         layout.operator(
             cfg_decal.bl_idname,
-            text="Empty Decal (117)",
+            text="Empty Decal",
             icon='MESH_PLANE'
         )
         layout.operator(
             cfg_cloth.bl_idname,
-            text="Empty Cloth (117)",
+            text="Empty Cloth",
             icon='MOD_CLOTH'
         )
         #layout.operator(
@@ -132,32 +130,102 @@ class cfg_menu(bpy.types.Menu):
 
 class shader_menu(bpy.types.Menu):
     bl_idname="add.anno_shaders"
-    bl_label="Anno 117 Shaders"
+    bl_label="Anno Shaders"
 
     def draw(self, context):
         layout = self.layout
 
         layout.operator(
+            shader_decal.bl_idname,
+            text="Decal (1)",
+            icon='FILE_BLANK'
+        )        
+        layout.operator(
+            shader_cloth.bl_idname,
+            text="Model | Cloth (0)",
+            icon='FILE_BLANK'
+        )       
+        layout.operator(
+            shader_glass.bl_idname,
+            text="Model | Glass (2)",
+            icon='FILE_BLANK'
+        )      
+        layout.operator(
+            shader_mine_cutout.bl_idname,
+            text="Model | Mine Cutout (4)",
+            icon='FILE_BLANK'
+        )             
+        layout.operator(
+            shader_cutout.bl_idname,
+            text="Model | Cutout (5)",
+            icon='FILE_BLANK'
+        )          
+        layout.operator(
+            shader_destruct.bl_idname,
+            text="Model | Destruction (6)",
+            icon='FILE_BLANK'
+        )         
+        layout.operator(
+            shader_destruct.bl_idname,
+            text="Model | Liquid (7)",
+            icon='FILE_BLANK'
+        ) 
+        layout.operator(
             shader_default.bl_idname,
-            text="Default 117 (ID: 8)",
+            text="Model | Default (8)",
+            icon='FILE_BLANK'
+        )
+        layout.operator(
+            shader_mockup.bl_idname,
+            text="Model | Mockup (18)",
+            icon='FILE_BLANK'
+        ) 
+        layout.operator(
+            shader_prop_simple_pbr.bl_idname,
+            text="Prop | SimplePBR",
+            icon='FILE_BLANK'
+        ) 
+        layout.operator(
+            shader_prop_decal.bl_idname,
+            text="Prop | Decal",
+            icon='FILE_BLANK'
+        ) 
+        layout.operator(
+            shader_prop_decal_detail.bl_idname,
+            text="Prop | Decal Detail",
+            icon='FILE_BLANK'
+        )
+        layout.operator(
+            shader_prop_terrain.bl_idname,
+            text="Prop | Terrain",
+            icon='FILE_BLANK'
+        )
+        layout.operator(
+            shader_prop_grass.bl_idname,
+            text="Prop | Grass",
+            icon='FILE_BLANK'
+        )
+        layout.operator(
+            shader_prop_plant.bl_idname,
+            text="Prop | Plant",
             icon='FILE_BLANK'
         )
 
 def add_anno_object_menu(self, context):
     self.layout.menu(
         cfg_menu.bl_idname,
-        text="Anno 117 Objects",
+        text="Anno Objects",
         icon='FILE_BLEND')
 
 def add_anno_shader_menu(self, context):
     self.layout.menu(
         shader_menu.bl_idname,
-        text="Anno 117 Shaders",
+        text="Anno Shaders",
         icon='FILE_BLEND')
 
 class shader_default(bpy.types.Operator):
-    bl_idname = "node.add_anno_shader_117"
-    bl_label  = "Add Default Anno 117 Shader"
+    bl_idname = "node.add_anno_shader"
+    bl_label  = "Add Default Anno Shader"
 
     @classmethod
     def poll(cls, context):
@@ -166,7 +234,7 @@ class shader_default(bpy.types.Operator):
 
     def execute(self, context):
         node_tree = context.object.active_material.node_tree
-        my_group = A8_DefaultShader().add_anno_shader(node_tree.nodes)
+        my_group = AnnoDefaultShader().add_anno_shader(node_tree.nodes)
         return {"FINISHED"}
 
 class shader_prop_simple_pbr(bpy.types.Operator):
